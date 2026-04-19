@@ -1,0 +1,81 @@
+# .github/workflows/hello-world.yml
+
+# =============================================================================
+# LINE 1: 'name' - The display name of your workflow
+# This appears in the GitHub Actions tab and in status checks
+# =============================================================================
+name: Hello World Workflow
+
+# =============================================================================
+# LINE 2-4: 'on' - Defines WHEN this workflow runs (triggers)
+# =============================================================================
+on:
+  # 'push' event: runs when code is pushed to any branch
+  push:
+    # 'branches' filter: only run when pushing to these branches
+    branches: [ main, develop ]
+  # 'pull_request' event: runs when PRs are opened/updated
+  pull_request:
+    branches: [ main ]
+
+# =============================================================================
+# LINE 5: 'jobs' - Container for all jobs in this workflow
+# =============================================================================
+jobs:
+  # =============================================================================
+  # LINE 6: 'hello-job' - The ID of your first job (must be unique)
+  # This ID is used for referencing and in the GitHub UI
+  # =============================================================================
+  hello-job:
+    # =============================================================================
+    # LINE 7: 'runs-on' - Specifies the type of machine (runner) to use
+    # Options: ubuntu-latest, windows-latest, macos-latest, or self-hosted labels
+    # =============================================================================
+    runs-on: ubuntu-latest
+    
+    # =============================================================================
+    # LINE 8: 'steps' - Sequential list of tasks for this job
+    # Steps run in order, and if one fails, the job stops (unless configured otherwise)
+    # =============================================================================
+    steps:
+      # =============================================================================
+      # STEP 1: Checkout your repository code
+      # =============================================================================
+      # LINE 9-11: 'uses' - References a pre-built action from GitHub Marketplace
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        # 'with' passes parameters to the action
+        with:
+          # 'fetch-depth: 0' means full git history (needed for some operations)
+          fetch-depth: 0
+
+      # =============================================================================
+      # STEP 2: Setup Node.js environment
+      # =============================================================================
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          # 'node-version' specifies which Node.js version to install
+          node-version: '20'
+          # 'cache' enables dependency caching between runs (speeds up builds)
+          cache: 'npm'
+
+      # =============================================================================
+      # STEP 3: Run shell commands
+      # =============================================================================
+      # LINE 12: 'name' - Display name for this step in the UI
+      - name: Print greeting
+        # LINE 13: 'run' - Executes shell commands directly on the runner
+        run: echo "Hello, GitHub Actions!"
+
+      # =============================================================================
+      # STEP 4: Multi-line commands
+      # =============================================================================
+      - name: Show environment info
+        # '|' is YAML multi-line string indicator
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Files in repo:"
+          ls -la
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
