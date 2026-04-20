@@ -11,7 +11,7 @@ jobs:
   # Line 7: Job ID (unique identifier for this job)
   say-hello:
     # Line 8: Name displayed in the GitHub UI
-    name: Say Hello
+    name: Say Hellooooooooooooooooooooooooooooo
     
     # Line 10: What machine to run on (the "runner")
     runs-on: ubuntu-latest    # Use GitHub's Ubuntu virtual machine
